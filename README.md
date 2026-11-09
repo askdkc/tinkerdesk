@@ -1,5 +1,9 @@
 # TinkerDesk
 
+<p align="center">
+  <img src="Resources/TinkerDeskIcon.png" alt="TinkerDesk icon" width="160">
+</p>
+
 TinkerDesk is a clean-room native macOS workbench for running PHP inside a local Laravel application.
 
 ## Included in the first release
