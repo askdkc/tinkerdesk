@@ -1,5 +1,7 @@
 # TinkerDesk
 
+## [日本語README](README.ja.md)
+
 <p align="center">
   <img src="Resources/TinkerDeskIcon.png" alt="TinkerDesk icon" width="160">
 </p>
