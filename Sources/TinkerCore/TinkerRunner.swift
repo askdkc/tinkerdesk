@@ -201,6 +201,12 @@ public final class TinkerRunner: @unchecked Sendable {
         $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
         $kernel->bootstrap();
 
+        spl_autoload_register(static function (string $name) use ($app): void {
+            if (str_contains($name, '\\')) return;
+            $model = $app->getNamespace() . 'Models\\' . $name;
+            if (class_exists($model)) class_alias($model, $name);
+        });
+
         $code = file_get_contents($snippet);
         if ($code === false) throw new RuntimeException('The snippet could not be read.');
         $code = preg_replace('/^\s*<\?php\s*/', '', $code, 1) ?? $code;

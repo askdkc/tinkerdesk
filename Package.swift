@@ -12,7 +12,7 @@ let package = Package(
         .executable(name: "TinkerDesk", targets: ["TinkerDesk"])
     ],
     targets: [
-        .target(name: "TinkerCore"),
+        .target(name: "TinkerCore", resources: [.copy("Resources/PHPantom")]),
         .executableTarget(
             name: "TinkerDesk",
             dependencies: ["TinkerCore"]

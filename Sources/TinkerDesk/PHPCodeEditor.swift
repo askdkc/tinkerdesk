@@ -233,9 +233,17 @@ private enum LaravelCodePalette {
     }
 }
 
-fileprivate final class CompletionTextView: NSTextView {
+final class CompletionTextView: NSTextView {
     var completionItems: [EditorCompletion] = []
     var onCompletionSelected: ((EditorCompletion, NSRange) -> Void)?
+
+    @objc func toggleLineComment(_ sender: Any?) {
+        let edit = LineCommentEdit(source: string, selection: selectedRange())
+        guard shouldChangeText(in: edit.range, replacementString: edit.replacement) else { return }
+        textStorage?.replaceCharacters(in: edit.range, with: edit.replacement)
+        setSelectedRange(edit.selection)
+        didChangeText()
+    }
 
     override func completions(
         forPartialWordRange charRange: NSRange,

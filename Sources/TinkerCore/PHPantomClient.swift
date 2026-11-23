@@ -17,6 +17,14 @@ public final class PHPantomClient: @unchecked Sendable {
     private var documentIsOpen = false
     private var recentStderr = Data()
 
+    public static var bundledServerURL: URL? {
+        if Bundle.main.bundleURL.pathExtension == "app" {
+            let helper = Bundle.main.bundleURL.appendingPathComponent("Contents/Helpers/phpantom_lsp")
+            return FileManager.default.isExecutableFile(atPath: helper.path) ? helper : nil
+        }
+        return Bundle.module.url(forResource: "phpantom_lsp", withExtension: nil, subdirectory: "PHPantom")
+    }
+
     public init(serverURL: URL) {
         self.serverURL = serverURL.standardizedFileURL
     }
@@ -87,7 +95,7 @@ public final class PHPantomClient: @unchecked Sendable {
 
         let initialize: [String: Any] = [
             "processId": ProcessInfo.processInfo.processIdentifier,
-            "clientInfo": ["name": "TinkerDesk", "version": "0.1.0"],
+            "clientInfo": ["name": "TinkerDesk", "version": "0.2.0"],
             "rootUri": root.absoluteURL.absoluteString,
             "workspaceFolders": [[
                 "uri": root.absoluteURL.absoluteString,
@@ -98,10 +106,7 @@ public final class PHPantomClient: @unchecked Sendable {
                 "textDocument": [
                     "completion": [
                         "completionItem": [
-                            "snippetSupport": false,
-                            "resolveSupport": [
-                                "properties": ["detail", "documentation", "additionalTextEdits"]
-                            ]
+                            "snippetSupport": false
                         ]
                     ],
                     "synchronization": [
@@ -316,7 +321,7 @@ public final class PHPantomClient: @unchecked Sendable {
     }
 
     private static func decodeCompletions(from data: Data) throws -> [EditorCompletion] {
-        let object = try JSONSerialization.jsonObject(with: data)
+        let object = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
         let rawItems: Any
         if let array = object as? [Any] {
             rawItems = array

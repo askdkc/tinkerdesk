@@ -15,7 +15,7 @@ TinkerDesk is a clean-room native macOS workbench for running PHP inside a local
 - Highlights PHP with a Laravel documentation-inspired dark palette.
 - Runs snippets in a fully booted Laravel console context.
 - Captures printed output, returned values, PHP/Laravel versions, timing, and throwable details.
-- Runs with `Command-R`, force-stops with `Esc`, and retains the editor contents after failures.
+- Runs with `Command-R` or `Command-Enter`, force-stops with `Esc`, and retains the editor contents after failures.
 - Persists open project tabs, per-project snippets, and the PHP executable locally.
 
 ## Build
@@ -28,7 +28,7 @@ Open `TinkerDesk.app` in the `dist` directory.
 
 The generated app is ad-hoc signed for local development. Distribution to other Macs requires an Apple Developer ID signature and notarization.
 
-PHPantom is bundled under its MIT license. Its binary and license live in `Vendor/PHPantom`; the packaged app places them in `Contents/Helpers` and `Contents/Resources`.
+PHPantom is bundled under its MIT license. SwiftPM copies the Apple Silicon executable and license from `Sources/TinkerCore/Resources/PHPantom` into its runtime resource bundle. The packaged app ships the same executable in `Contents/Helpers` and its license in `Contents/Resources`. Laravel projects need no PHPantom installation.
 
 ## License
 
@@ -37,7 +37,9 @@ TinkerDesk is available under the MIT License. Copyright © 2026 dkc.
 ## Snippet format
 
 Write the body you would normally enter in `php artisan tinker`; the `<?php` tag is optional.
-Press `Command-R` to run it. While it is running, press `Esc` to terminate the PHP process.
+Use model names such as `User::query()` directly for classes in the application’s `Models` namespace. If PHPantom is unavailable, the editor still offers completions for models in `app/Models`.
+Press `Command-/` to toggle line comments on the current line or the selected lines.
+Press `Command-R` or `Command-Enter` to run it. While it is running, press `Esc` to terminate the PHP process.
 
 ```php
 return [

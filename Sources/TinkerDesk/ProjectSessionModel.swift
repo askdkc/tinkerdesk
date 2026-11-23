@@ -31,6 +31,7 @@ final class ProjectSessionModel: ObservableObject, Identifiable {
 
     private let defaults: UserDefaults
     private let codeDefaultsKey: String
+    private lazy var modelNames = ProjectModelCompletions(projectRoot: project.rootURL)
     private let runner = TinkerRunner()
     private let phpantomExecutable: URL?
     private var executionTask: Task<Void, Never>?
@@ -140,15 +141,17 @@ final class ProjectSessionModel: ObservableObject, Identifiable {
     }
 
     func completionSuggestions(source: String, caretUTF16Offset: Int) async -> [EditorCompletion] {
-        guard languageServiceState == .ready, let languageClient else { return [] }
+        let local = modelNames.suggestions(source: source, caret: caretUTF16Offset)
+        guard languageServiceState == .ready, let languageClient else { return local }
         do {
-            return try await languageClient.completions(
+            let items = try await languageClient.completions(
                 source: source,
                 caretUTF16Offset: caretUTF16Offset
             )
+            return items + local.filter { candidate in !items.contains { $0.label == candidate.label } }
         } catch {
             languageServiceState = .unavailable(error.localizedDescription)
-            return []
+            return local
         }
     }
 

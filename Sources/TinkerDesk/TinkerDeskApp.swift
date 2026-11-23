@@ -18,6 +18,12 @@ struct TinkerDeskApp: App {
                 Button("Open Laravel Project…") { model.openProject() }
                     .keyboardShortcut("o", modifiers: .command)
             }
+            CommandGroup(after: .pasteboard) {
+                Button("Toggle Line Comment") {
+                    NSApp.sendAction(#selector(CompletionTextView.toggleLineComment(_:)), to: nil, from: nil)
+                }
+                .keyboardShortcut("/", modifiers: .command)
+            }
             CommandMenu("Run") {
                 Button("Run Snippet") { model.run() }
                     .keyboardShortcut("r", modifiers: .command)

@@ -1,4 +1,5 @@
 import AppKit
+import Carbon.HIToolbox
 import Combine
 import Foundation
 import TinkerCore
@@ -139,7 +140,7 @@ final class AppModel: ObservableObject {
                 project: project,
                 defaults: defaults,
                 legacyCode: legacyCode,
-                phpantomExecutable: Self.phpantomExecutableURL()
+                phpantomExecutable: PHPantomClient.bundledServerURL
             ))
         }
         selectedTabID = tabs.first(where: {
@@ -175,6 +176,17 @@ final class AppModel: ObservableObject {
         shortcutMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
             guard let self else { return event }
             let modifiers = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+            if modifiers.intersection([.command, .option, .shift, .control]) == .command,
+               event.charactersIgnoringModifiers == "/",
+               let editor = event.window?.firstResponder as? CompletionTextView {
+                editor.toggleLineComment(nil)
+                return nil
+            }
+            let isEnter = event.keyCode == kVK_Return || event.keyCode == kVK_ANSI_KeypadEnter
+            if isEnter, modifiers.intersection([.command, .option, .shift, .control]) == .command {
+                if self.canRun { self.run() }
+                return nil
+            }
             if modifiers.contains(.command),
                event.charactersIgnoringModifiers?.lowercased() == "r" {
                 self.run()
@@ -186,24 +198,6 @@ final class AppModel: ObservableObject {
             }
             return event
         }
-    }
-
-    private static func phpantomExecutableURL() -> URL? {
-        var candidates: [URL] = []
-        if let configured = ProcessInfo.processInfo.environment["TINKERDESK_PHPANTOM"] {
-            candidates.append(URL(fileURLWithPath: configured))
-        }
-        candidates.append(
-            Bundle.main.bundleURL
-                .appendingPathComponent("Contents/Helpers/phpantom_lsp")
-        )
-        candidates.append(
-            URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-                .appendingPathComponent("Vendor/PHPantom/phpantom_lsp")
-        )
-        return candidates.first {
-            FileManager.default.isExecutableFile(atPath: $0.path)
-        }?.standardizedFileURL
     }
 
     private enum Keys {

@@ -191,7 +191,7 @@ private struct ProjectWorkspaceView: View {
                 .buttonStyle(RunButtonStyle())
                 .disabled(!model.canRun(with: appModel.php))
                 .keyboardShortcut("r", modifiers: .command)
-                .help("Run snippet (⌘R)")
+                .help("Run snippet (⌘R or ⌘↩)")
                 .accessibilityHint("Runs this PHP snippet inside the selected Laravel application")
             }
         }
