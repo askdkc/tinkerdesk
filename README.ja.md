@@ -2,6 +2,10 @@
 
 ## [English README](README.md)
 
+<p align="center">
+  <img src="Resources/TinkerDeskIcon.png" alt="TinkerDeskのアイコン" width="160">
+</p>
+
 TinkerDeskは、ローカルのLaravelプロジェクトでPHPコードを試せるmacOSアプリです。
 プロジェクトを開いてクエリやアプリ内のコードを実行し、その場で結果を確認できます。
 

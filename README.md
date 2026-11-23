@@ -2,6 +2,10 @@
 
 ## [日本語README](README.ja.md)
 
+<p align="center">
+  <img src="Resources/TinkerDeskIcon.png" alt="TinkerDesk icon" width="160">
+</p>
+
 TinkerDesk is a macOS app for running PHP snippets in a local Laravel project.
 Open your project to try a query or call application code and see the result.
 
