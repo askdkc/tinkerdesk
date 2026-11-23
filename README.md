@@ -18,6 +18,12 @@ TinkerDesk is a clean-room native macOS workbench for running PHP inside a local
 - Runs with `Command-R` or `Command-Enter`, force-stops with `Esc`, and retains the editor contents after failures.
 - Persists open project tabs, per-project snippets, and the PHP executable locally.
 
+## First launch on macOS
+
+1. Download the ZIP from [TinkerDesk Releases](https://github.com/askdkc/tinkerdesk/releases), unzip it, and open `TinkerDesk.app`.
+2. If macOS says it cannot verify the developer, dismiss the alert. Open **System Settings → Privacy & Security** and scroll to **Security**.
+3. Find the message about TinkerDesk and click **Open Anyway**. Confirm when prompted. After this first launch, you can open TinkerDesk normally.
+
 ## Build
 
 ```
@@ -26,7 +32,7 @@ TinkerDesk is a clean-room native macOS workbench for running PHP inside a local
 
 Open `TinkerDesk.app` in the `dist` directory.
 
-The generated app is ad-hoc signed for local development. Distribution to other Macs requires an Apple Developer ID signature and notarization.
+The generated app is ad-hoc signed. The downloadable build is not notarized, so macOS may show the developer verification alert on first launch.
 
 PHPantom is bundled under its MIT license. SwiftPM copies the Apple Silicon executable and license from `Sources/TinkerCore/Resources/PHPantom` into its runtime resource bundle. The packaged app ships the same executable in `Contents/Helpers` and its license in `Contents/Resources`. Laravel projects need no PHPantom installation.
 
