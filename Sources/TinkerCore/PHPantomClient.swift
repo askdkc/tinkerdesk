@@ -95,7 +95,7 @@ public final class PHPantomClient: @unchecked Sendable {
 
         let initialize: [String: Any] = [
             "processId": ProcessInfo.processInfo.processIdentifier,
-            "clientInfo": ["name": "TinkerDesk", "version": "0.2.0"],
+            "clientInfo": ["name": "TinkerDesk", "version": "0.2.1"],
             "rootUri": root.absoluteURL.absoluteString,
             "workspaceFolders": [[
                 "uri": root.absoluteURL.absoluteString,
